@@ -14,6 +14,7 @@ const Libro = ({ libro }) => {
     <TableRow
       key={libro.id}
       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+      onClick={ejecutarEliminar}
     >
       <TableCell component="th" scope="row">
         {libro.id}
