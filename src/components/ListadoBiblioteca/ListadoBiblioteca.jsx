@@ -19,6 +19,7 @@ const ListadoBiblioteca = () => {
             <TableCell>ID</TableCell>
             <TableCell align="right">Nombre</TableCell>
             <TableCell align="right">Dirección</TableCell>
+            <TableCell align="right">Eliminar</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

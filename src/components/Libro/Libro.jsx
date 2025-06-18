@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { ContextLibros } from "../contextos/contextos";
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Libro = ({ libro }) => {
   const { dispatch } = useContext(ContextLibros);
@@ -14,7 +15,6 @@ const Libro = ({ libro }) => {
     <TableRow
       key={libro.id}
       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-      onClick={ejecutarEliminar}
     >
       <TableCell component="th" scope="row">
         {libro.id}
@@ -23,6 +23,7 @@ const Libro = ({ libro }) => {
       <TableCell align="right">{libro.descripcion}</TableCell>
       <TableCell align="right">{libro.fechaIngreso}</TableCell>
       <TableCell align="right">{libro.genero}</TableCell>
+      <TableCell align="right"><DeleteIcon onClick={ejecutarEliminar}/></TableCell>
     </TableRow>
   );
 };

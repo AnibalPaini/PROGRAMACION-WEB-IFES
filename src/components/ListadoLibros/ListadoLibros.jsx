@@ -22,6 +22,7 @@ const ListadoLibros = () => {
             <TableCell align="right">Descripcion</TableCell>
             <TableCell align="right">Fecha de ingreso</TableCell>
             <TableCell align="right">Genero</TableCell>
+            <TableCell align="right">Eliminar</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

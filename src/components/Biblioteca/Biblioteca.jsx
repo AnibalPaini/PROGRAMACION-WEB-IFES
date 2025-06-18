@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { ContextBiblioteca } from "../contextos/contextos";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Biblioteca = ({ biblioteca }) => {
   const { dispatch } = useContext(ContextBiblioteca);
@@ -9,6 +10,7 @@ const Biblioteca = ({ biblioteca }) => {
   function ejecutarEliminar() {
     dispatch({ type: "eliminar", id: biblioteca.id });
   }
+
   return (
     <TableRow
       key={biblioteca.id}
@@ -19,6 +21,7 @@ const Biblioteca = ({ biblioteca }) => {
       </TableCell>
       <TableCell align="right">{biblioteca.nombre}</TableCell>
       <TableCell align="right">{biblioteca.direccion}</TableCell>
+      <TableCell align="right"><DeleteIcon onClick={ejecutarEliminar}/></TableCell>
     </TableRow>
   );
 };
