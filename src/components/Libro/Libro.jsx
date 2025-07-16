@@ -3,9 +3,10 @@ import { ContextLibros } from "../contextos/contextos";
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Libro = ({ libro }) => {
-  const { dispatch } = useContext(ContextLibros);
+  const { handlerActualizarLibro,dispatch } = useContext(ContextLibros);
 
   function ejecutarEliminar() {
     dispatch({ type: "eliminar", id: libro.id });
@@ -23,7 +24,7 @@ const Libro = ({ libro }) => {
       <TableCell align="right">{libro.descripcion}</TableCell>
       <TableCell align="right">{libro.fechaIngreso}</TableCell>
       <TableCell align="right">{libro.genero}</TableCell>
-      <TableCell align="right"><DeleteIcon onClick={ejecutarEliminar}/></TableCell>
+      <TableCell align="right"><DeleteIcon onClick={ejecutarEliminar}/><EditIcon onClick={()=>handlerActualizarLibro(libro)}/></TableCell>
     </TableRow>
   );
 };

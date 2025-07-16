@@ -32,3 +32,9 @@ body{
     gap: 5px;
 }
 
+.contenedor-botones{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ContextLibros } from "..//contextos/contextos.js";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
@@ -11,7 +11,20 @@ const FormLibro = () => {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [genero, setGenero] = useState("");
-  const { dispatch } = useContext(ContextLibros);
+  const [actualziar, setActualizar] = useState(false);
+  const { handlerActualizarLibro, libroActualizar, dispatch } =
+    useContext(ContextLibros);
+
+  useEffect(() => {
+    if (libroActualizar) {
+      console.log(libroActualizar);
+      
+      setActualizar(true);
+      setNombre(libroActualizar.nombre);
+      setDescripcion(libroActualizar.descripcion);
+      setGenero(libroActualizar.genero);
+    }
+  }, [libroActualizar]);
 
   const handlerNombre = (e) => {
     setNombre(e.target.value);
@@ -35,16 +48,27 @@ const FormLibro = () => {
     e.preventDefault();
 
     const libro = {
-      id: Math.round(Math.random() * 10000),
+      id: actualziar ? libroActualizar.id : Math.round(Math.random() * 10000),
       nombre: nombre,
       descripcion: descripcion,
       fechaIngreso: new Date().toLocaleDateString(),
       genero: genero,
     };
 
-    dispatch({ type: "agregar", libro: libro });
+    if (actualziar) {
+      dispatch({ type: "actualizar", libro});
+      setActualizar(false);
+    } else {
+      dispatch({ type: "agregar", libro: libro });
+    }
 
     limpiarForm();
+  };
+
+  const cancelar = () => {
+    limpiarForm();
+    handlerActualizarLibro();
+    setActualizar(false);
   };
 
   return (
@@ -94,9 +118,16 @@ const FormLibro = () => {
         </Select>
       </FormControl>
 
-      <Button variant="contained" type="submit">
-        Guardar
-      </Button>
+      <div className="contenedor-botones">
+        <Button variant="contained" type="submit">
+          {actualziar ? "Actualizar" : "Guardar"}
+        </Button>
+        {actualziar && (
+          <Button variant="contained" color="warning" onClick={cancelar}>
+            Cancelar
+          </Button>
+        )}
+      </div>
     </form>
   );
 };
