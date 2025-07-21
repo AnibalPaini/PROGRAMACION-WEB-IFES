@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { ContextBiblioteca } from '../contextos/contextos';
+import React, { useState, useContext, useEffect } from "react";
+import { ContextBiblioteca } from "../contextos/contextos";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
@@ -7,7 +7,19 @@ import TextField from "@mui/material/TextField";
 const FormBiblioteca = () => {
   const [nombre, setNombre] = useState("");
   const [direccion, setDireccion] = useState("");
-  const { dispatch } = useContext(ContextBiblioteca);
+  const [actualizar, setActualizar] = useState(false);
+  const { handlerActualizarBiblioteca, bibliotecaActualizar, dispatch } =
+    useContext(ContextBiblioteca);
+
+  useEffect(() => {
+    if (bibliotecaActualizar) {
+      console.log(bibliotecaActualizar);
+      
+      setActualizar(true);
+      setNombre(bibliotecaActualizar.nombre);
+      setDireccion(bibliotecaActualizar.direccion);
+    }
+  }, [bibliotecaActualizar]);
 
   const handlerNombre = (e) => {
     setNombre(e.target.value);
@@ -26,14 +38,25 @@ const FormBiblioteca = () => {
     e.preventDefault();
 
     const biblioteca = {
-      id: Math.round(Math.random() * 10000),
+      id:actualizar? bibliotecaActualizar.id : Math.round(Math.random() * 10000),
       nombre: nombre,
       direccion: direccion,
     };
 
-    dispatch({ type: "agregar", biblioteca: biblioteca });
+    if (actualizar) {
+      dispatch({ type: "actualizar", biblioteca });
+      setActualizar(false);
+    } else {
+      dispatch({ type: "agregar", biblioteca: biblioteca });
+    }
 
     limpiarForm();
+  };
+
+  const cancelar = () => {
+    limpiarForm();
+    handlerActualizarBiblioteca();
+    setActualizar(false);
   };
 
   return (
@@ -68,11 +91,18 @@ const FormBiblioteca = () => {
         />
       </FormControl>
 
-      <Button variant="contained" type="submit">
-        Guardar
-      </Button>
+      <div className="contenedor-botones">
+        <Button variant="contained" type="submit">
+          {actualizar ? "Actualizar" : "Guardar"}
+        </Button>
+        {actualizar && (
+          <Button variant="contained" color="warning" onClick={cancelar}>
+            Cancelar
+          </Button>
+        )}
+      </div>
     </form>
   );
 };
 
-export default FormBiblioteca
+export default FormBiblioteca;

@@ -7,16 +7,23 @@ import { ContextBiblioteca } from "../contextos/contextos.js";
 const BibliotecaContainer = () => {
     const initialBibliotecas = JSON.parse(localStorage.getItem("biblioteca")) || [];
     const [bibliotecas, dispatch] = useReducer(bibliotecaReducer, initialBibliotecas);
+    const [bibliotecaActualizar, setBibliotecaActualizar]=useState("")
   
     useEffect(() => {
       localStorage.setItem("biblioteca", JSON.stringify(bibliotecas));
     }, [bibliotecas]);
+
+    const handlerActualizarBiblioteca=(bibliotecaAActualizar)=>{
+      setBibliotecaActualizar(bibliotecaAActualizar)
+    }
 
   return (
         <>
           <ContextBiblioteca.Provider
             value={{
               bibliotecas: bibliotecas,
+              bibliotecaActualizar:bibliotecaActualizar,
+              handlerActualizarBiblioteca:handlerActualizarBiblioteca,
               dispatch: dispatch,
             }}
           >

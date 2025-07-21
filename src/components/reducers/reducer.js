@@ -18,6 +18,10 @@ export function bibliotecaReducer(bibliotecas, action) {
       return [...bibliotecas, action.biblioteca];
     case "eliminar":
       return bibliotecas.filter((biblioteca) => biblioteca.id !== action.id);
+    case "actualizar":
+      return bibliotecas.map((biblioteca)=>
+        biblioteca.id===action.biblioteca.id ? action.biblioteca : biblioteca
+      );
     default:
       throw new Error("Esta accion no esta definida!");
   }
